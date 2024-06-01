@@ -1,12 +1,13 @@
 import os
 import google.generativeai as genai
 from util import read_document
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
+import streamlit as st
 
-load_dotenv()
+# load_dotenv()
 
-GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
-MODEL_NAME = os.environ['MODEL_NAME']
+GOOGLE_API_KEY = st.secrets['GOOGLE_API_KEY']
+MODEL_NAME = st.secrets['MODEL_NAME']
 
 generation_config = {
   "temperature": 0.05,
