@@ -5,7 +5,7 @@ import time
 def main():
     st.set_page_config(page_title='ChatBot AI', page_icon='🤖')
 
-    st.title("Echo Bot")
+    st.title("Gemini - Chat with documents")
     pdf = st.file_uploader("Upload your .doc or .pdf", type=['pdf', 'docx'])
     chatbot = ChatBot()
     chatbot.set_doc(pdf)
