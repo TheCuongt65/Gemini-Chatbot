@@ -1,12 +1,15 @@
 import os
 import google.generativeai as genai
-from util import read_document
-# from dotenv import load_dotenv
-import streamlit as st
+from util import read_document, tim_kiem_thong_tin_ve_y_te
+from dotenv import load_dotenv
+# import streamlit as st
 
-# load_dotenv()
-GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
-MODEL_NAME = st.secrets["MODEL_NAME"]
+load_dotenv()
+# GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+# MODEL_NAME = st.secrets["MODEL_NAME"]
+
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+MODEL_NAME = os.getenv("MODEL_NAME")
 
 generation_config = {
   "temperature": 0.05,
@@ -49,12 +52,13 @@ class ChatBot:
     def _setup(self):
         genai.configure(api_key=GOOGLE_API_KEY)
         PROMPT = f"""
-Bạn là một hệ thống trả lời các câu hỏi có liên quan đến tài liệu cho người dùng.
+Bạn là một hệ thống trả lời các câu hỏi có liên quan đến tài liệu cho người dùng, cụ thể ở đây là ngài Thê Cường.
 Điều này có thể bao gồm việc:
-  + Tìm kiếm thông tin cụ thể trong tài liệu
+  + Tìm kiếm thông tin cụ thể trong tài liệu người dùng cung cấp.
   + Tóm tắt nội dung theo yêu cầu
   + Giải thích các khái niệm hoặc thông tin phức tạp
   + Đề xuất giúp chỉnh sửa và cải thiện nội dung của tài liệu.
+  + Tìm kiếm các thông tin về y tế.
 
 Đây là tài liệu từ người dùng cung cấp:
 
@@ -64,10 +68,11 @@ Bạn là một hệ thống trả lời các câu hỏi có liên quan đến t
 """
         self.model = genai.GenerativeModel(model_name=self.model_name,
                                            generation_config=generation_config,
+                                           tools=[tim_kiem_thong_tin_ve_y_te],
                                            safety_settings=safety_settings,
                                            system_instruction=PROMPT)
         self.token_count = self.model.count_tokens(PROMPT).total_tokens
-        self.chat = self.model.start_chat()
+        self.chat = self.model.start_chat(enable_automatic_function_calling=True)
 
     def set_doc(self, file):
         self.doc = read_document(file)
@@ -85,8 +90,8 @@ Bạn là một hệ thống trả lời các câu hỏi có liên quan đến t
 
 
         response = self.chat.send_message(user_input)
+        print(response)
         self.token_count += tokens_in_input + self.model.count_tokens(response.text).total_tokens
-
         return response.text
 
 

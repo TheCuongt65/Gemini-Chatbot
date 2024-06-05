@@ -3,9 +3,9 @@ import streamlit as st
 import time
 
 def main():
-    st.set_page_config(page_title='ChatBot AI', page_icon='🤖')
+    st.set_page_config(page_title='ChatBot AI', page_icon='🏥')
 
-    st.title("Gemini - Chat with documents")
+    st.title("Gemini - Chat with documents and Search for information medical !")
     pdf = st.file_uploader("Upload your .doc or .pdf", type=['pdf', 'docx'])
     chatbot = ChatBot()
     chatbot.set_doc(pdf)
@@ -18,6 +18,7 @@ def main():
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
+
 
     def response_generator():
         for word in response.split(" "):
