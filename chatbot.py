@@ -43,7 +43,6 @@ class ChatBot:
         self.file = None
         self.token_count = None
         self.model = None
-        self.doc = ''
         self.chat = None
         self._setup()
 
