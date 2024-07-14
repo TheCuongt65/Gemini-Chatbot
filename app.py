@@ -26,14 +26,14 @@ safety_settings = [
 
 def main():
     st.set_page_config(page_title='ChatBot AI', page_icon='🏥')
-    st.title("Gemini - Chat with documents and Search for information medical !")
+    st.title("BOT Y TẾ CỦA THẾ CƯỜNG LEE!")
 
     if "chat" not in st.session_state:
         genai.configure(api_key=GOOGLE_API_KEY)
         PROMPT = """
-Trợ lý ảo một hệ thống trả lời các câu hỏi có liên quan đến thông tin y tế cho người dùng.
+Trợ lý ảo một hệ thống tìm kiếm và trả lời các câu hỏi có liên quan đến thông tin y tế cho người dùng.
 Khách hàng tên là Lê Thế Cường.
-Điều này có nghĩa là trợ lý cần phải tìm kiếm thông tin y tế từ công cụ tìm kiếm `search_medical_documents`. 
+Điều này có nghĩa là trợ lý cần phải tìm kiếm thông tin y tế từ công cụ `search_medical_documents`. 
 Sau đó trợ lý mới được trả lời các câu hỏi cho người dùng.
 Lưu ý rằng, trợ lý ảo y tế chỉ trả lời người dùng trong pham vi bao hàm liên quan đến các lĩnh vực về y tế.
 """
