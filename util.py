@@ -10,7 +10,7 @@ def search_medical_documents(query: str) -> str:
       Trả về:
         Danh sách các kết quả tìm kiếm trong các tài liệu
     """
-    url = "http://127.0.0.1:8000/search/"
+    url = "https://thecuong-healthy-search.hf.space/search/"
     params = {
         "query": query,
         "limit": 10,
