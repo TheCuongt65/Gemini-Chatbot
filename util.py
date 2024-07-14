@@ -5,7 +5,7 @@ def search_medical_documents(query: str) -> str:
       Hàm tìm kiếm thông tin y tế về `query`.
 
       Tham số:
-        query: Từ khóa, cụm từ khóa để tìm kiếm.
+        query: Nội dung tìm kiếm.
 
       Trả về:
         Danh sách các kết quả tìm kiếm trong các tài liệu
