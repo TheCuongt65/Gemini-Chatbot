@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 import streamlit as st
 import google.generativeai as genai
-from util import search_medical_documents, generate_response
+from util import search_medical_documents
 from time import time
 
 load_dotenv()
@@ -45,10 +45,14 @@ Lưu ý rằng, trợ lý ảo y tế chỉ trả lời người dùng trong pha
                                       safety_settings=safety_settings,
                                       system_instruction=PROMPT
                                       )
-        st.session_state.chat = model.start_chat(enable_automatic_function_calling=True)
 
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
+        if "messages" not in st.session_state:
+            st.session_state.messages = []
+
+        st.session_state.chat = model.start_chat(enable_automatic_function_calling=True,
+                                                 history=st.session_state.messages)
+
+
 
     # Display conversation history
     for message in st.session_state.messages:
@@ -60,9 +64,9 @@ Lưu ý rằng, trợ lý ảo y tế chỉ trả lời người dùng trong pha
             yield word + " "
             time.sleep(0.05)
 
-    if prompt := st.chat_input("What is up?"):
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        response = generate_response(prompt, st.session_state.chat)
+    if user_input := st.chat_input("What is up?"):
+        st.session_state.messages.append({"role": "user", "content": user_input})
+        response = st.session_state.chat(user_input)
 
         with st.chat_message("assistant"):
             response = st.write_stream(response_generator())
