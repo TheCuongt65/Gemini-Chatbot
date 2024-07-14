@@ -6,9 +6,7 @@ def main():
     st.set_page_config(page_title='ChatBot AI', page_icon='🏥')
 
     st.title("Gemini - Chat with documents and Search for information medical !")
-    pdf = st.file_uploader("Upload your .doc or .pdf", type=['pdf', 'docx'])
     chatbot = ChatBot()
-    chatbot.set_doc(pdf)
 
     # Initialize chat history
     if "messages" not in st.session_state:

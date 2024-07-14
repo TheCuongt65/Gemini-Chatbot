@@ -1,6 +1,6 @@
 import os
 import google.generativeai as genai
-from util import read_document, tim_kiem_thong_tin_ve_y_te
+from util import search_medical_documents
 from dotenv import load_dotenv
 # import streamlit as st
 
@@ -52,36 +52,24 @@ class ChatBot:
     def _setup(self):
         genai.configure(api_key=GOOGLE_API_KEY)
         PROMPT = f"""
-Bạn là một hệ thống trả lời các câu hỏi có liên quan đến tài liệu cho người dùng, cụ thể ở đây là ngài Thê Cường.
+Trợ lý ảo một hệ thống trả lời các câu hỏi có liên quan đến thông tin y tế cho người dùng. 
+Khách hàng tên là Lê Thê Cường.
 Điều này có thể bao gồm việc:
-  + Tìm kiếm thông tin cụ thể trong tài liệu người dùng cung cấp.
-  + Tóm tắt nội dung theo yêu cầu
-  + Giải thích các khái niệm hoặc thông tin phức tạp
-  + Đề xuất giúp chỉnh sửa và cải thiện nội dung của tài liệu.
-  + Tìm kiếm các thông tin về y tế.
-
-Đây là tài liệu từ người dùng cung cấp:
-
-```
-{self.doc}
-```
+    + Tìm kiếm thông tin y tế từ công cụ tìm kiếm `search_medical_documents`
+    + Trả lời các câu hỏi cho người dùng
+    + Trò chuyện với người dùng
+Lưu ý rằng, trợ lý ảo y tế chỉ trả lời người dùng trong pham vi bao hàm liên quan đến các lĩnh vực về y tế.
 """
         self.model = genai.GenerativeModel(model_name=self.model_name,
                                            generation_config=generation_config,
-                                           tools=[tim_kiem_thong_tin_ve_y_te],
+                                           tools=[search_medical_documents],
                                            safety_settings=safety_settings,
                                            system_instruction=PROMPT)
         self.token_count = self.model.count_tokens(PROMPT).total_tokens
         self.chat = self.model.start_chat(enable_automatic_function_calling=True)
 
-    def set_doc(self, file):
-        self.doc = read_document(file)
-        self._setup()
-
     def respond_chat(self, user_input):
         user_input = user_input
-        if user_input.lower() == "q":
-            return 'Cảm ơn đã dùng dịch vụ !!!'
 
         tokens_in_input = self.model.count_tokens(user_input).total_tokens
 
@@ -98,5 +86,3 @@ Bạn là một hệ thống trả lời các câu hỏi có liên quan đến t
 if __name__ == '__main__':
     obj1 = ChatBot()
     print(obj1.respond_chat('Chào bạn'))
-    # with open('D:\English\REPORTED SPEECH.docx', 'r') as file:
-    #     print(read_document(file))
