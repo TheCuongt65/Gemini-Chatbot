@@ -3,7 +3,7 @@ import os
 import streamlit as st
 import google.generativeai as genai
 from util import search_medical_documents
-from time import time
+import time
 
 load_dotenv()
 
@@ -32,11 +32,9 @@ def main():
         genai.configure(api_key=GOOGLE_API_KEY)
         PROMPT = """
 Trợ lý ảo một hệ thống trả lời các câu hỏi có liên quan đến thông tin y tế cho người dùng.
-Khách hàng tên là Lê Thê Cường.
-Điều này có thể bao gồm việc:
-    + Tìm kiếm thông tin y tế từ công cụ tìm kiếm `search_medical_documents`
-    + Trả lời các câu hỏi cho người dùng
-    + Trò chuyện với người dùng
+Khách hàng tên là Lê Thế Cường.
+Điều này có nghĩa là trợ lý cần phải tìm kiếm thông tin y tế từ công cụ tìm kiếm `search_medical_documents`. 
+Sau đó trợ lý mới được trả lời các câu hỏi cho người dùng.
 Lưu ý rằng, trợ lý ảo y tế chỉ trả lời người dùng trong pham vi bao hàm liên quan đến các lĩnh vực về y tế.
 """
         model = genai.GenerativeModel(model_name=MODEL_NAME,
@@ -65,8 +63,10 @@ Lưu ý rằng, trợ lý ảo y tế chỉ trả lời người dùng trong pha
             time.sleep(0.05)
 
     if user_input := st.chat_input("What is up?"):
+        st.chat_message("user").markdown(user_input)
+
         st.session_state.messages.append({"role": "user", "content": user_input})
-        response = st.session_state.chat(user_input)
+        response = st.session_state.chat.send_message(user_input).text
 
         with st.chat_message("assistant"):
             response = st.write_stream(response_generator())
