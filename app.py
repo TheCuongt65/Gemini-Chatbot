@@ -3,6 +3,7 @@ import os
 import streamlit as st
 import google.generativeai as genai
 from util import search_medical_documents, generate_response
+from time import time
 
 load_dotenv()
 
@@ -54,13 +55,19 @@ Lưu ý rằng, trợ lý ảo y tế chỉ trả lời người dùng trong pha
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
+    def response_generator():
+        for word in response.split(" "):
+            yield word + " "
+            time.sleep(0.05)
+
     if prompt := st.chat_input("What is up?"):
         st.session_state.messages.append({"role": "user", "content": prompt})
         response = generate_response(prompt, st.session_state.chat)
-        st.session_state.messages.append({"role": "assistant", "content": response})
 
+        with st.chat_message("assistant"):
+            response = st.write_stream(response_generator())
+        st.session_state.messages.append({"role": "assistant", "content": response})
         # Refresh the chat interface to display the new messages
-        st.experimental_rerun()
 
 if __name__ == '__main__':
     main()
