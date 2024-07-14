@@ -42,7 +42,8 @@ Lưu ý rằng, trợ lý ảo y tế chỉ trả lời người dùng trong pha
                                       generation_config=generation_config,
                                       tools=[search_medical_documents],
                                       safety_settings=safety_settings,
-                                      system_instruction=PROMPT)
+                                      system_instruction=PROMPT
+                                      )
         st.session_state.chat = model.start_chat(enable_automatic_function_calling=True)
 
     if "messages" not in st.session_state:
