@@ -13,7 +13,7 @@ def search_medical_documents(query: str) -> str:
     url = "https://thecuong-healthy-search.hf.space/search/"
     params = {
         "query": query,
-        "limit": 10,
+        "limit": 3,
         # "rerank": False,
         # "content": True
     }
