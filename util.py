@@ -29,7 +29,10 @@ def search_google(query: str) -> str:
         return links
 
     def fetch_article_content(url):
-        response = requests.get(url)
+        try:
+            response = requests.get(url)
+        except:
+            return " "
         soup = BeautifulSoup(response.text, 'html.parser')
         text = soup.get_text()
         return remove_extra_newlines(text)
