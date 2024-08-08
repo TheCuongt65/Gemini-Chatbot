@@ -1,3 +1,5 @@
+import logging
+
 from dotenv import load_dotenv
 import os
 import streamlit as st
@@ -64,8 +66,11 @@ Lưu ý rằng, trợ lý ảo y tế chỉ trả lời người dùng bằng ng
         st.chat_message("user").markdown(user_input)
 
         st.session_state.messages.append({"role": "user", "content": user_input})
-        response = st.session_state.chat.send_message(user_input).text
-
+        try:
+            response = st.session_state.chat.send_message(user_input).text
+        except Exception as e:
+            logging.warning(f"Error: {e}")
+            response = f"Tin nhắn không hợp lệ hoặc vi phạm chính sách an toàn của hệ thống. {e}"
         with st.chat_message("assistant"):
             response = st.write_stream(response_generator())
         st.session_state.messages.append({"role": "assistant", "content": response})
