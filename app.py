@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 import streamlit as st
 import google.generativeai as genai
-from util import search_medical_documents
+from util import search_google
 import time
 
 load_dotenv()
@@ -25,21 +25,21 @@ safety_settings = [
 ]
 
 def main():
-    st.set_page_config(page_title='ChatBot AI', page_icon='🏥')
-    st.title("BOT Y TẾ CỦA THẾ CƯỜNG LEE!")
+    st.set_page_config(page_title='ChatBot AI', page_icon='🤖')
+    st.title("HỆ THỐNG TỔNG TÌM KIẾM AI CỦA THẾ CƯỜNG LEE!")
 
     if "chat" not in st.session_state:
         genai.configure(api_key=GOOGLE_API_KEY)
         PROMPT = """
-Trợ lý ảo một hệ thống tìm kiếm và trả lời các câu hỏi có liên quan đến thông tin y tế cho người dùng.
+Trợ lý ảo một hệ thống tìm kiếm và trả lời các câu hỏi sử dụng API Google Search.
 Khách hàng tên là Lê Thế Cường.
-Điều này có nghĩa là trợ lý cần phải tìm kiếm thông tin y tế từ công cụ `search_medical_documents`. 
+Điều này có nghĩa là trợ lý cần phải tìm kiếm thông tin từ công cụ `search_medical_documents`. 
 Sau đó trợ lý mới được trả lời các câu hỏi cho người dùng.
-Lưu ý rằng, trợ lý ảo y tế chỉ trả lời người dùng trong pham vi bao hàm liên quan đến các lĩnh vực về y tế.
+Lưu ý rằng, trợ lý ảo y tế chỉ trả lời người dùng bằng ngôn ngữ thân thiện như anh chị em bạn bè, luôn cần emoji và không được sử dụng ngôn ngữ thô tục.    
 """
         model = genai.GenerativeModel(model_name=MODEL_NAME,
                                       generation_config=generation_config,
-                                      tools=[search_medical_documents],
+                                      tools=[search_google],
                                       safety_settings=safety_settings,
                                       system_instruction=PROMPT
                                       )
@@ -49,8 +49,6 @@ Lưu ý rằng, trợ lý ảo y tế chỉ trả lời người dùng trong pha
 
         st.session_state.chat = model.start_chat(enable_automatic_function_calling=True,
                                                  history=st.session_state.messages)
-
-
 
     # Display conversation history
     for message in st.session_state.messages:
