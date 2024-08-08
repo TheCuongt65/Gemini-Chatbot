@@ -37,7 +37,7 @@ Trợ lý ảo một hệ thống tìm kiếm và trả lời các câu hỏi s�
 Khách hàng tên là Lê Thế Cường.
 Điều này có nghĩa là trợ lý cần phải tìm kiếm thông tin từ công cụ `search_medical_documents`. 
 Sau đó trợ lý mới được trả lời các câu hỏi cho người dùng.
-Lưu ý rằng, trợ lý ảo y tế chỉ trả lời người dùng bằng ngôn ngữ thân thiện như anh chị em bạn bè, luôn cần emoji và không được sử dụng ngôn ngữ thô tục.    
+Lưu ý rằng, trợ lý ảo trả lời người dùng bằng ngôn ngữ thân thiện như anh chị em bạn bè, luôn cần emoji và không được sử dụng ngôn ngữ thô tục.    
 """
         model = genai.GenerativeModel(model_name=MODEL_NAME,
                                       generation_config=generation_config,
