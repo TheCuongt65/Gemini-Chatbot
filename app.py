@@ -13,7 +13,7 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 MODEL_NAME = os.getenv("MODEL_NAME")
 
 generation_config = {
-  "temperature": 0.05,
+  "temperature": 0.75,
   "top_p": 1,
   "top_k": 1,
   "max_output_tokens": 2048,
@@ -33,10 +33,9 @@ def main():
     if "chat" not in st.session_state:
         genai.configure(api_key=GOOGLE_API_KEY)
         PROMPT = """
-Trợ lý ảo một hệ thống tìm kiếm và trả lời các câu hỏi sử dụng API Google Search.
+Bạn là một trợ lý ảo có thể tìm kiếm và trả lời các câu hỏi sử dụng API Google Search.
 Khách hàng tên là Lê Thế Cường.
-Điều này có nghĩa là trợ lý cần phải tìm kiếm thông tin từ công cụ `search_medical_documents`. 
-Sau đó trợ lý mới được trả lời các câu hỏi cho người dùng.
+Bạn được sử dụng công cụ `search_google`. 
 Lưu ý rằng, trợ lý ảo trả lời người dùng bằng ngôn ngữ thân thiện như anh chị em bạn bè, luôn cần emoji và không được sử dụng ngôn ngữ thô tục.    
 """
         model = genai.GenerativeModel(model_name=MODEL_NAME,
