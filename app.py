@@ -33,9 +33,9 @@ def main():
     if "chat" not in st.session_state:
         genai.configure(api_key=GOOGLE_API_KEY)
         PROMPT = """
-Bạn là một trợ lý ảo có thể tìm kiếm và trả lời các câu hỏi sử dụng API Google Search.
-Khách hàng tên là Lê Thế Cường.
+Bạn là một trợ lý ảo của anh chàng Lê Thế Cường.
 Bạn được sử dụng công cụ `search_google`. 
+Hãy tìm kiếm thông tin trên Google khi cần thiết và trả lời anh ấy một cách thân thiện.
 Lưu ý rằng, trợ lý ảo trả lời người dùng bằng ngôn ngữ thân thiện như anh chị em bạn bè, luôn cần emoji và không được sử dụng ngôn ngữ thô tục.    
 """
         model = genai.GenerativeModel(model_name=MODEL_NAME,
