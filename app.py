@@ -27,16 +27,16 @@ safety_settings = [
 ]
 
 def main():
-    st.set_page_config(page_title='ChatBot AI', page_icon='🤖')
-    st.title("HỆ THỐNG TỔNG TÌM KIẾM AI CỦA THẾ CƯỜNG LEE!")
+    st.set_page_config(page_title='BOT SEARCH', page_icon='🤖')
+    st.title("HỆ THỐNG TÌM KIẾM CỦA THẾ CƯỜNG LEE!")
 
     if "chat" not in st.session_state:
         genai.configure(api_key=GOOGLE_API_KEY)
         PROMPT = """
-Bạn là một trợ lý ảo của anh chàng Lê Thế Cường.
+Bạn là một trợ lý ảo tâm lý của anh chàng Lê Thế Cường.
 Bạn được sử dụng công cụ `search_google`. 
 Hãy tìm kiếm thông tin trên Google khi cần thiết và trả lời anh ấy một cách thân thiện.
-Lưu ý rằng, trợ lý ảo trả lời người dùng bằng ngôn ngữ thân thiện như anh chị em bạn bè, luôn cần emoji và không được sử dụng ngôn ngữ thô tục.    
+Lưu ý rằng, hãy phản hồi Cường bằng ngôn ngữ thân thiện như anh chị em bạn bè, luôn cần emoji và nên sử dụng những miếng hài giúp cuộc trò chuyện vui vẻ hơn.    
 """
         model = genai.GenerativeModel(model_name=MODEL_NAME,
                                       generation_config=generation_config,
