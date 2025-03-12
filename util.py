@@ -13,6 +13,7 @@ SEARCH_ENGINE_ID = os.getenv("SEARCH_ENGINE_ID")
 def remove_extra_newlines(text):
     return re.sub(r'\n+', '\n', text)
 
+
 def search_google(query: str) -> str:
     url = 'https://customsearch.googleapis.com/customsearch/v1'
     params = {
@@ -26,20 +27,27 @@ def search_google(query: str) -> str:
         links = []
         for item in search_results.get('items', []):
             links.append(item['link'])
-        return links
+        return links[:3]  # Limit to 3 results
 
     def fetch_article_content(url):
         try:
-            response = requests.get(url)
-        except:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+        except requests.RequestException:
             return " "
         soup = BeautifulSoup(response.text, 'html.parser')
-        text = soup.get_text()
-        return remove_extra_newlines(text)
+        for script_or_style in soup(['script', 'style']):
+            script_or_style.decompose()  # Remove JavaScript and CSS
+        text = soup.get_text(separator=' ')
+        text = re.sub(r'\s+', ' ', text)  # Replace multiple spaces with single space
+        return remove_extra_newlines(text.strip())
 
     links = extract_links(response.json())
-    article_contents = [{link: fetch_article_content(link)} for link in links]
-    return json.dumps(article_contents, ensure_ascii=False, indent=4)
+    article_contents = [
+        f"- [{link}]({link})\n\n```\n{fetch_article_content(link)}\n```"
+        for link in links
+    ]
+    return "\n\n".join(article_contents)
 
 
 if __name__ == "__main__":

@@ -34,8 +34,8 @@ def main():
         genai.configure(api_key=GOOGLE_API_KEY)
         PROMPT = """
 Bạn là một trợ lý ảo tâm lý của anh chàng Lê Thế Cường.
-Bạn được sử dụng công cụ `search_google`. 
-Hãy tìm kiếm thông tin trên Google khi cần thiết và trả lời anh ấy một cách thân thiện.
+Bạn được sử dụng công cụ `search_google` và phải ghi rõ nguồn khi sử dụng nội dung các trang web nhé.
+Hãy tìm kiếm thông tin trên Google khi cần thiết hoặc khi có yêu cầu và trả lời anh ấy một cách thân thiện.
 Lưu ý rằng, hãy phản hồi Cường bằng ngôn ngữ thân thiện như anh chị em bạn bè, luôn cần emoji và nên sử dụng những miếng hài giúp cuộc trò chuyện vui vẻ hơn.    
 """
         model = genai.GenerativeModel(model_name=MODEL_NAME,
